@@ -19,7 +19,7 @@
     "executable": "${command:cmake.buildDirectory}/${workspaceFolderBasename}.elf",
     "device": "SCR1-RV32", //"RISC-V"
     "svdFile" : "${workspaceRoot}/mik32.svd",
-    //"targetFamily": "",
+    "targetFamily": "mik32",
     //"jlink-id": "nucleo-f030", //-usb ${config:jlink-id},
     "toolchain": "${env:USERPROFILE}/xpack-riscv-none-elf-gcc-13.3.0-2",
     //"toolchain": "${env:HOME}/xpack-riscv-none-elf-gcc-13.2.0-2"

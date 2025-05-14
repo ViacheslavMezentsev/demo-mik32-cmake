@@ -1,0 +1,3 @@
+[submodule "modules/framework-mik32v2-sdk"]
+	path = modules/framework-mik32v2-sdk
+	url = https://github.com/MikronMIK32/framework-mik32v2-sdk
