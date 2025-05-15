@@ -1,0 +1,93 @@
+{
+    "configurations" :
+    [
+      {
+        "name" : "Debug (gdb/jlink)",
+        "cwd" : "${workspaceRoot}",
+        "executable" : "${config:executable}",
+        "interface": "jtag",
+        "request" : "launch",
+        "type" : "cortex-debug",
+        "servertype" : "jlink",
+        "device" : "${config:device}",
+        "preLaunchTask" : "CMake: build",
+        "preRestartCommands" :
+        [
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
+        ],
+        "runToEntryPoint" : "main",
+        //"showDevDebugOutput" : "raw",
+        "svdFile" : "${config:svdFile}",
+        "liveWatch": { "enabled": false, "samplesPerSecond": 2 },
+        "rttConfig": { "enabled": false, "address": "auto", "decoders": [ { "label": "RTT(0)", "port": 0, "timestamp": true, "type": "console" } ] }
+      },
+      {
+        "name" : "Debug (ocd/jlink)",
+        "cwd" : "${workspaceRoot}",
+        "executable" : "${config:executable}",
+        "interface": "jtag",
+        "request" : "launch",
+        "type" : "cortex-debug",
+        "servertype" : "openocd",
+        "device" : "${config:device}",
+        "preLaunchTask" : "CMake: build",
+        "preRestartCommands" :
+        [
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
+        ],
+        "runToEntryPoint" : "main",
+        //"showDevDebugOutput" : "raw",
+        "svdFile" : "${config:svdFile}",
+        "configFiles": [ "interface/jlink.cfg", "target/${config:targetFamily}.cfg" ],
+        "liveWatch": { "enabled": false, "samplesPerSecond": 2 },
+      },
+      {
+        "name" : "Debug (ocd/blueprog)",
+        "cwd" : "${workspaceRoot}",
+        "executable" : "${config:executable}",
+        "interface": "jtag",
+        "request" : "launch",
+        "type" : "cortex-debug",
+        "servertype" : "openocd",
+        "device" : "${config:device}",
+        "preLaunchTask" : "CMake: build",
+        "preRestartCommands" :
+        [
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
+        ],
+        "runToEntryPoint" : "main",
+        //"showDevDebugOutput" : "raw",
+        "svdFile" : "${config:svdFile}",
+        "configFiles": [ "interface/ftdi/blueprog.cfg", "target/${config:targetFamily}.cfg" ],
+        "liveWatch": { "enabled": false, "samplesPerSecond": 2 },
+      },
+    ],
+    "version" : "0.2.0"
+  }
