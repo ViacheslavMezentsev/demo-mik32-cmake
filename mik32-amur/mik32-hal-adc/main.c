@@ -24,10 +24,13 @@ static void ADC_Init( void );
  */
 int main()
 {
+    // Настраиваем подсистему тактирования и монитор частоты МК.
     SystemClock_Config();
 
-    UART_Init( UART_0, 3333, UART_CONTROL1_TE_M | UART_CONTROL1_M_8BIT_M, 0, 0 );
+    // Настраиваем UART.
+    UART_Init( UART_0, OSC_SYSTEM_VALUE / 115200U, UART_CONTROL1_TE_M | UART_CONTROL1_M_8BIT_M, 0, 0 );
 
+    // Настраиваем АЦП.
     ADC_Init();
 
     uint16_t adc_value = 0;

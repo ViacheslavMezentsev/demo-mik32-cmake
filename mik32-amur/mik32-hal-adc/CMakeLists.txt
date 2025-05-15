@@ -2,14 +2,13 @@ cmake_minimum_required(VERSION 3.19)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/gcc-riscv-none-elf.cmake)
 
-set(CMAKE_C_STANDARD 17)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
 # В качестве имени проекта используем имя папки (см. tasks.json и launch.json).
 get_filename_component(BASE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 set(PROJECT_NAME ${BASE_FOLDER})
 
-project(${PROJECT_NAME} C CXX ASM)
+project(${PROJECT_NAME} C ASM)
 
 add_executable(${PROJECT_NAME} main.c)
 
@@ -39,8 +38,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     #-Wa,-adhlns=${PROJECT_NAME}.lst
     # other
     -pipe
-    # c/cxx flags
-    $<$<COMPILE_LANGUAGE:CXX>:-fpermissive -fno-exceptions -fno-rtti -funsigned-bitfields -fshort-enums -Winline>
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE

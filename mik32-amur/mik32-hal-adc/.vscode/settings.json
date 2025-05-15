@@ -25,8 +25,11 @@
     "files.associations": {
         "Makefile": "makefile",
         "*.inc": "plaintext",
+        "mik32_hal_adc.h": "c",
+        "mik32_hal_pcc.h": "c",
         "uart_lib.h": "c",
-        "mik32_hal.h": "c"
+        "mik32_memory_map.h": "c",
+        "uart.h": "c"
     },
     //"toolchain": "${env:HOME}/xpack-riscv-none-elf-gcc-13.2.0-2"
 }
