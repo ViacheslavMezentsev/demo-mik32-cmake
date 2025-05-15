@@ -11,12 +11,24 @@
         "servertype" : "jlink",
         "device" : "${config:device}",
         "preLaunchTask" : "CMake: build",
-        "preRestartCommands" : [ "load", "enable breakpoint", "monitor reset" ],
+        "preRestartCommands" :
+        [
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
+        ],
         "runToEntryPoint" : "main",
         //"showDevDebugOutput" : "raw",
         "svdFile" : "${config:svdFile}",
-        "liveWatch": { "enabled": true, "samplesPerSecond": 2 },
-        "rttConfig": { "enabled": true, "address": "auto", "decoders": [ { "label": "RTT(0)", "port": 0, "timestamp": true, "type": "console" } ] }
+        "liveWatch": { "enabled": false, "samplesPerSecond": 2 },
+        "rttConfig": { "enabled": false, "address": "auto", "decoders": [ { "label": "RTT(0)", "port": 0, "timestamp": true, "type": "console" } ] }
       },
       {
         "name" : "Debug (ocd/jlink)",
@@ -28,7 +40,19 @@
         "servertype" : "openocd",
         "device" : "${config:device}",
         "preLaunchTask" : "CMake: build",
-        "preRestartCommands" : [ "load", "enable breakpoint", "monitor reset" ],
+        "preRestartCommands" :
+        [
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
+        ],
         "runToEntryPoint" : "main",
         //"showDevDebugOutput" : "raw",
         "svdFile" : "${config:svdFile}",
@@ -45,7 +69,19 @@
         "servertype" : "openocd",
         "device" : "${config:device}",
         "preLaunchTask" : "CMake: build",
-        "preRestartCommands" : [ "load", "enable breakpoint", "monitor reset" ],
+        "preRestartCommands" :
+        [
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
+        ],
         "runToEntryPoint" : "main",
         //"showDevDebugOutput" : "raw",
         "svdFile" : "${config:svdFile}",

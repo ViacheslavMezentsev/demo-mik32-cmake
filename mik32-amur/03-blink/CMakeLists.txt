@@ -32,7 +32,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     -W -Wall -Wextra
     -Wno-unused-parameter
     # optimization
-    $<$<CONFIG:DEBUG>:-O2 -g3>
+    $<$<CONFIG:DEBUG>:-O2>
     $<$<CONFIG:RELEASE>:-Os>
     -ffunction-sections -fdata-sections
     # debug
@@ -40,8 +40,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     #-Wa,-adhlns=${PROJECT_NAME}.lst
     # other
     -pipe
-    # c/cxx flags
-    $<$<COMPILE_LANGUAGE:CXX>:-fpermissive -fno-exceptions -fno-rtti -funsigned-bitfields -fshort-enums -Winline>
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
@@ -50,7 +48,8 @@ target_link_options(${PROJECT_NAME} PRIVATE
     -mabi=ilp32
     -mcmodel=medlow
     -lc -lgcc
-    -T${CMAKE_CURRENT_SOURCE_DIR}/shared/ldscripts/ram.ld
+    -Tram.ld
+    -Wl,-L${CMAKE_CURRENT_SOURCE_DIR}/shared/ldscripts/
     -Wl,-Map=${PROJECT_NAME}.map,--no-warn-rwx-segments,--cref,--gc-sections,--print-memory-usage
 )
 
