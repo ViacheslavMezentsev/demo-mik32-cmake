@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/gcc-riscv-none-elf.cmake)
 
-set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
 # В качестве имени проекта используем имя папки (см. tasks.json и launch.json).
 get_filename_component(BASE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR} NAME)
@@ -14,13 +14,8 @@ add_executable(${PROJECT_NAME} main.c)
 
 add_subdirectory(mik32v2-sdk)
 add_subdirectory(stubs)
-add_subdirectory(RTT)
 
-target_link_libraries(${PROJECT_NAME} 
-    MIK32::Nano
-    MIK32::NoSys
-    RTT::RTT
-)
+target_link_libraries(${PROJECT_NAME} MIK32::Nano)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -35,7 +30,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     -W -Wall -Wextra
     -Wno-unused-parameter
     # optimization
-    $<$<CONFIG:DEBUG>:-O2>
+    $<$<CONFIG:DEBUG>:-O2 -g3>
     $<$<CONFIG:RELEASE>:-Os>
     -ffunction-sections -fdata-sections
     # debug
