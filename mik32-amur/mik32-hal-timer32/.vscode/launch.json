@@ -13,16 +13,16 @@
         "preLaunchTask" : "CMake: build",
         "preRestartCommands" :
         [
-          "set mem inaccessible-by-default on", // Disable memory protection
-          "mem 0x00040000 0x00090000 rw", // RAM
-          "mem 0x02000000 0x02004000 rw", // Flash
-          "mem 0x01000000 0x01002000 ro", // Boot ROM
-          "mem 0x80000000 0xffffffff ro", // System Control Space
-          "set arch riscv:rv32",  // Set architecture to RISC-V 32-bit
-          "set remotetimeout 10", // Set timeout for remote operations
-          "set remote hardware-breakpoint-limit 2", // Limit hardware breakpoints to 2
-          "load", // Load the program into the target
-          "enable breakpoint", "monitor reset halt" // Enable breakpoints and reset the target
+          "set mem inaccessible-by-default on",
+          "mem 0x00040000 0x00090000 rw",
+          "mem 0x02000000 0x02004000 rw",
+          "mem 0x01000000 0x01002000 ro",
+          "mem 0x80000000 0xffffffff ro",
+          "set arch riscv:rv32",
+          "set remotetimeout 10",
+          "set remote hardware-breakpoint-limit 2",
+          "load",
+          "enable breakpoint", "monitor reset halt"
         ],
         "runToEntryPoint" : "main",
         //"showDevDebugOutput" : "raw",
