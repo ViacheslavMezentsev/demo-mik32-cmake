@@ -1,4 +1,6 @@
 /**
+ * @file    main.c
+ * @brief   Пример работы с АЦП.
  * В данном примере демонстрируется работа с АЦП.
  *
  * Канал АЦП переключается не сразу после записи в регистр, а в конце преобразования.
@@ -8,11 +10,11 @@
  * При многократных измерениях на одном канале, после переключения канала рекомендуется сделать одно
  * дополнительное измерение для переключения на выбранный канал.
  */
-
 #include "mik32_hal_adc.h"
 #include "uart_lib.h"
 #include "xprintf.h"
 
+/// Структура для работы с АЦП
 ADC_HandleTypeDef hadc;
 
 void SystemClock_Config( void );
@@ -40,24 +42,24 @@ int main()
 
     // Получить текущий результат преобразования (режим непрерывного преобразования).
     //adc_value = HAL_ADC_GetValue( &hadc );
-    
+
     while ( 1 )
     {
         // Получение значения с канала.
         // Запуск однократного преобразования для того чтобы канал переключился на заданный.
         //HAL_ADC_Single( &hadc );
-        
+
         adc_value = HAL_ADC_WaitAndGetValue( &hadc );
-        
+
         // Ожидание и чтение данных (режим одиночного преобразования).
-        //xprintf("ADC%u: %u (V = %u,%03u)\n", hadc.Init.Sel, adc_value, 
+        //xprintf("ADC%u: %u (V = %u,%03u)\n", hadc.Init.Sel, adc_value,
         //((adc_value * 1200) / 4095) / 1000, ((adc_value * 1200) / 4095) % 1000);
 
         // for (volatile int i = 0; i < 1000000; i++) {}
 
         // Получение значения с разных каналов.
         ADC_SEL_CHANNEL( hadc.Instance, 0 );
-        
+
         // Первое измерение для переключение на канал 0.
         HAL_ADC_SINGLE( hadc.Instance );
 
@@ -66,10 +68,11 @@ int main()
         for ( uint32_t j = 0; j < 5; j++ )
         {
             HAL_ADC_SINGLE_AND_SET_CH( hadc.Instance, ( j + 1 ) % 5 );
-            
+
             // Ожидание и чтение актуальных данных (режим одиночного преобразования).
             adc_value = HAL_ADC_WaitAndGetValue( &hadc );
 
+            // Вывод результата преобразования в консоль.
             xprintf( "ADC[%u]: %u (V = %u,%03u)\n", j, adc_value,
                 ( ( adc_value * 1200 ) / 4095 ) / 1000,
                 ( ( adc_value * 1200 ) / 4095 ) % 1000 );
@@ -87,17 +90,17 @@ void SystemClock_Config( void )
 {
     PCC_InitTypeDef PCC_OscInit = { 0 };
 
-    PCC_OscInit.OscillatorEnable         = PCC_OSCILLATORTYPE_ALL;
+    PCC_OscInit.OscillatorEnable = PCC_OSCILLATORTYPE_ALL;
     PCC_OscInit.FreqMon.OscillatorSystem = PCC_OSCILLATORTYPE_OSC32M;
-    PCC_OscInit.FreqMon.ForceOscSys      = PCC_FORCE_OSC_SYS_UNFIXED;
-    PCC_OscInit.FreqMon.Force32KClk      = PCC_FREQ_MONITOR_SOURCE_OSC32K;
-    PCC_OscInit.AHBDivider               = 0;
-    PCC_OscInit.APBMDivider              = 0;
-    PCC_OscInit.APBPDivider              = 0;
-    PCC_OscInit.HSI32MCalibrationValue   = 128;
-    PCC_OscInit.LSI32KCalibrationValue   = 8;
-    PCC_OscInit.RTCClockSelection        = PCC_RTC_CLOCK_SOURCE_AUTO;
-    PCC_OscInit.RTCClockCPUSelection     = PCC_CPU_RTC_CLOCK_SOURCE_OSC32K;
+    PCC_OscInit.FreqMon.ForceOscSys = PCC_FORCE_OSC_SYS_UNFIXED;
+    PCC_OscInit.FreqMon.Force32KClk = PCC_FREQ_MONITOR_SOURCE_OSC32K;
+    PCC_OscInit.AHBDivider = 0;
+    PCC_OscInit.APBMDivider = 0;
+    PCC_OscInit.APBPDivider = 0;
+    PCC_OscInit.HSI32MCalibrationValue = 128;
+    PCC_OscInit.LSI32KCalibrationValue = 8;
+    PCC_OscInit.RTCClockSelection = PCC_RTC_CLOCK_SOURCE_AUTO;
+    PCC_OscInit.RTCClockCPUSelection = PCC_CPU_RTC_CLOCK_SOURCE_OSC32K;
 
     HAL_PCC_Config( &PCC_OscInit );
 }

@@ -12,6 +12,7 @@ project(${PROJECT_NAME} C ASM)
 
 add_executable(${PROJECT_NAME} main.c)
 
+# Подключаем библиотеки.
 add_subdirectory(mik32v2-sdk)
 add_subdirectory(stubs)
 
@@ -23,14 +24,14 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(${PROJECT_NAME} PRIVATE MIK32V2 BOARD_BLUEPILL_MIK32)
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -march=rv32imc_zicsr_zifencei
-    -mabi=ilp32
-    -mcmodel=medlow
+    -march=rv32imc_zicsr_zifencei   # архитектура
+    -mabi=ilp32                     # ABI
+    -mcmodel=medlow                 # модель памяти
     # warning
     -W -Wall -Wextra
     -Wno-unused-parameter
     # optimization
-    $<$<CONFIG:DEBUG>:-O2 -g3>
+    $<$<CONFIG:DEBUG>:-O2>
     $<$<CONFIG:RELEASE>:-Os>
     -ffunction-sections -fdata-sections
     # debug
@@ -41,18 +42,18 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
-    -nostartfiles
-    -march=rv32imc_zicsr_zifencei
-    -mabi=ilp32
-    -mcmodel=medlow
-    -lc -lgcc
-    -Tram.ld    
-    -Wl,-L${CMAKE_CURRENT_SOURCE_DIR}/ldscripts/
+    -nostartfiles                   # отключаем стандартный стартовый файл
+    -march=rv32imc_zicsr_zifencei   # архитектура
+    -mabi=ilp32                     # ABI
+    -mcmodel=medlow                 # модель памяти
+    -lc -lgcc                       # подключаем стандартную библиотеку и библиотеку компилятора
+    -Tram.ld                        # скрипт компоновщика
+    -Wl,-L${CMAKE_CURRENT_SOURCE_DIR}/ldscripts/    # путь к скрипту компоновщика
     -Wl,-Map=${PROJECT_NAME}.map,--no-warn-rwx-segments,--cref,--gc-sections,--print-memory-usage
 )
 
 # Артефакты сборки.
-mik32_generate_binary_file(${PROJECT_NAME})
-mik32_generate_hex_file(${PROJECT_NAME})
-mik32_generate_lss_file(${PROJECT_NAME})
-mik32_print_size_of_target(${PROJECT_NAME})
+mik32_generate_binary_file(${PROJECT_NAME})     # бинарный файл
+mik32_generate_hex_file(${PROJECT_NAME})        # hex-файл
+mik32_generate_lss_file(${PROJECT_NAME})        # lss-файл
+mik32_print_size_of_target(${PROJECT_NAME})     # размер исполняемого файла
